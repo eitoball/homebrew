@@ -15,6 +15,10 @@ class Wkhtmltopdf < Formula
       s.gsub! 'include($$join(TEMP, "/"))', ''
     end
 
+    inreplace 'src/lib/converter.cc' do |s|
+      s.gsub! 'QEventLoop::WaitForMoreEvents | QEventLoop::AllEvents', 'QEventLoop::ExcludeUserInputEvents'
+    end
+
     # It tries to build universally, but Qt is bottled as 64bit => build error.
     # If we are 64bit, do not compile with -arch i386.  This is a Homebrew
     # issue with our Qt4, not upstream, because wkhtmltopdf bundles a patched
